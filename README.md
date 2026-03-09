@@ -23,6 +23,13 @@ teaching-2026.ss.prse/
 │   └── en/
 │       ├── BR-CommunityAnalyzer.md         # Business Requirements (BR-01 to BR-20)
 │       └── BR-SR-US-Guide-Students.md      # How to refine BRs into SRs and User Stories
+├── setup/                                   # Setup verification project (Click Counter)
+│   ├── .github/workflows/ci.yml            # GitHub Actions CI/CD pipeline
+│   ├── docker/                             # SonarQube local Docker setup
+│   ├── src/                                # Java + JavaFX source code and tests
+│   ├── pom.xml                             # Maven build (Java 21, JavaFX, JaCoCo, SonarQube)
+│   ├── README.md                           # Setup instructions and checklist
+│   └── TROUBLESHOOTING.md                  # Common problems and solutions
 ├── slides/
 │   └── SE Praktikum-2026.pdf               # Course presentation slides
 ├── tools/
@@ -53,25 +60,37 @@ All guides cover: Java 21, Maven, JavaFX, SceneBuilder, Git, VS Code, SonarQube,
 - One team member acts as "Team Leader"
 - Send an email to **luca.berardinelli@jku.at** with subject **PR_SE2026 Team** containing: Name, Matr.Nr, email, and GitHub username for each member
 
-### 3. Create Your Team Repository
+### 3. Verify Your Environment
 
-Each team creates their own **private GitHub repository** for the project. Your repository should include:
+Before starting the project, verify that all tools are working correctly using the [setup/](setup/) folder in this repository:
 
-- A Maven project with Java 21 and JavaFX 23.0.2
-- JaCoCo plugin for code coverage
-- A `.github/workflows/ci.yml` for GitHub Actions CI/CD
-- A `docker/` folder with SonarQube local setup (see setup project below)
+```bash
+cd setup
+mvn clean verify      # compile + run tests + generate coverage report
+mvn javafx:run        # launch the Click Counter app (verifies JavaFX works)
+```
 
-Use the [se-praktikum-setup](https://github.com/lberardinelli/se-praktikum-setup) repository as a reference for the project structure, Maven configuration, CI/CD pipeline, and SonarQube Docker setup.
+See [setup/README.md](setup/README.md) for full instructions including SonarQube verification.
 
-### 4. Read the Requirements
+### 4. Create Your Team Repository
+
+Each team creates their own **private GitHub repository** for the project. Use the [setup/](setup/) folder as a reference for:
+
+- Maven project structure with Java 21 and JavaFX 23.0.2
+- JaCoCo plugin configuration for code coverage
+- `.github/workflows/ci.yml` for GitHub Actions CI/CD
+- `docker/` folder with SonarQube local Docker setup
+
+Copy the `pom.xml`, `.github/`, `docker/`, and `.gitignore` from `setup/` as your starting point, then replace the application code with your Community Analyzer implementation.
+
+### 5. Read the Requirements
 
 - [BR-CommunityAnalyzer.md](requirements/en/BR-CommunityAnalyzer.md) — the 20 Business Requirements
 - [BR-SR-US-Guide-Students.md](requirements/en/BR-SR-US-Guide-Students.md) — how to refine BRs into Software Requirements and User Stories, with examples
 
 Not all BRs must be implemented. Choose a meaningful subset for your team's budget of **450 hours** (150h × 3 students).
 
-### 5. Plan Your First Release
+### 6. Plan Your First Release
 
 Use **GitHub Projects** to plan your work:
 
@@ -232,4 +251,4 @@ A User Story may only be closed when ALL of the following are met:
 | GitHub Actions Documentation | https://docs.github.com/en/actions |
 | JavaFX / SceneBuilder | https://openjfx.io/ |
 | Git Tutorial (German) | https://rogerdudler.github.io/git-guide/index.de.html |
-| Setup Verification Project | https://github.com/lberardinelli/se-praktikum-setup |
+| Setup Verification Project | [setup/](setup/) (included in this repository) |
