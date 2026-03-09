@@ -1,0 +1,73 @@
+# ============================================================
+# SONARQUBE — Student Local Setup
+# SonarQube Community + PostgreSQL 15
+#
+# Usage:
+#   cd docker
+#   cp .env.example .env
+#   docker compose up -d
+#
+# Access: http://localhost:9000 (admin / admin -> change on first login)
+#
+# Windows prerequisite (run once as Administrator):
+#   wsl -d docker-desktop sysctl -w vm.max_map_count=262144
+# ============================================================
+
+name: sonarqube-student
+
+services:
+
+  sonar-db:
+    image: postgres:15-alpine
+    container_name: sonar-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: sonarqube
+      POSTGRES_USER: sonar
+      POSTGRES_PASSWORD: ${SONAR_DB_PASSWORD:-sonarpass}
+    volumes:
+      - sonar-db-data:/var/lib/postgresql/data
+    networks:
+      - sonar-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U sonar -d sonarqube"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+
+  sonarqube:
+    image: sonarqube:community
+    container_name: sonarqube
+    restart: unless-stopped
+    ports:
+      - "${SONAR_PORT:-9000}:9000"
+    environment:
+      SONAR_JDBC_URL: jdbc:postgresql://sonar-db:5432/sonarqube
+      SONAR_JDBC_USERNAME: sonar
+      SONAR_JDBC_PASSWORD: ${SONAR_DB_PASSWORD:-sonarpass}
+    volumes:
+      - sonar-data:/opt/sonarqube/data
+      - sonar-extensions:/opt/sonarqube/extensions
+      - sonar-logs:/opt/sonarqube/logs
+    depends_on:
+      sonar-db:
+        condition: service_healthy
+    networks:
+      - sonar-net
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:9000/api/system/status | grep -q UP"]
+      interval: 30s
+      timeout: 10s
+      retries: 10
+      start_period: 120s
+
+volumes:
+  sonar-db-data:
+  sonar-data:
+  sonar-extensions:
+  sonar-logs:
+
+networks:
+  sonar-net:
+    driver: bridge
