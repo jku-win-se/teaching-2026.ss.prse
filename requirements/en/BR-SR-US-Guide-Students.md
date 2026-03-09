@@ -164,35 +164,6 @@ Business Requirement (BR)    — What the client wants (high-level)
 
 ---
 
-## 7. Example: BR-11 (Community Overlap Analysis)
-
-### Business Requirement
-
-> **BR-11:** Overlap of communities (who is active in two or more communities)
-
-### Software Requirements
-
-**SR-11.1: Compute community overlap**
-- Linked BR: BR-11
-- Priority: Must
-- Description: The system shall compute the set of researchers who are active in two or more selected communities, based on their publications in conferences/journals assigned to those communities.
-- Constraints: "Active" means having at least one publication in a venue assigned to the community.
-- Verification: Select two communities with known overlapping researchers → system displays the correct overlap set.
-
-### User Stories
-
-**US-019: Analyze community overlap**
-- Linked SR: SR-11.1
-- Milestone: Release 3
-- Story: As a researcher, I want to see which researchers are active in multiple communities, so that I can identify interdisciplinary researchers and collaboration opportunities.
-- Acceptance Criteria:
-  - [ ] User can select two or more communities for comparison
-  - [ ] System displays a list of researchers active in all selected communities
-  - [ ] Each result shows the researcher name and the communities they are active in
-  - [ ] Results can be exported or displayed in a report
-
----
-
 ## 8. Definition of Done (mandatory)
 
 A User Story may only be closed when ALL of the following are met:
