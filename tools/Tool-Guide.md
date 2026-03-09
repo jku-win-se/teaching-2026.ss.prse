@@ -272,6 +272,41 @@ VS Code is a lightweight, extensible code editor with excellent Java support thr
 | **Java Extension Pack** | https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-java-pack |
 | **SceneBuilder Integration** | https://marketplace.visualstudio.com/items?itemName=bilalekrem.scenebuilderextension |
 
+### IntelliJ IDEA Community Edition
+
+IntelliJ IDEA is widely regarded as the most powerful Java IDE available. The free Community Edition provides excellent Java 21 support, advanced refactoring tools, intelligent code completion, and built-in Maven integration. It offers superior debugging, code navigation, and a modern UI. IntelliJ is the industry standard for professional Java development and a strong choice for students who want to learn the tool they will most likely use in their careers.
+
+| | |
+|---|---|
+| **Version** | Community Edition (free) |
+| **Download** | https://www.jetbrains.com/idea/download/ |
+| **SonarLint Plugin** | https://plugins.jetbrains.com/plugin/7973-sonarlint |
+| **SceneBuilder Integration** | Built-in FXML support; configure SceneBuilder path in Settings → Languages & Frameworks → JavaFX |
+
+### Eclipse IDE for Java Developers
+
+Eclipse is a mature, open-source IDE with a long history in Java development and academia. It provides solid Maven integration (via m2e), a large plugin ecosystem, and is familiar to many students from earlier courses at JKU (e.g., SW2). JavaFX support is available through the e(fx)clipse plugin. Eclipse is lighter on resources than IntelliJ and runs well on older hardware.
+
+| | |
+|---|---|
+| **Version** | Latest (Eclipse IDE for Java Developers) |
+| **Download** | https://www.eclipse.org/downloads/packages/ |
+| **SonarLint Plugin** | https://marketplace.eclipse.org/content/sonarlint |
+| **JavaFX Plugin** | https://www.eclipse.org/efxclipse/install.html (e(fx)clipse) |
+
+### Apache NetBeans
+
+NetBeans is a free, open-source IDE with the best out-of-the-box JavaFX support among all Java IDEs. It includes a built-in FXML editor, native Maven project support, and requires minimal configuration to get started. NetBeans is a good choice for students who prefer a simpler setup and want to focus on coding rather than IDE configuration.
+
+| | |
+|---|---|
+| **Version** | Latest |
+| **Download** | https://netbeans.apache.org/front/main/download/ |
+| **SonarLint Plugin** | https://plugins.netbeans.apache.org/catalogue/?id=148 (sonarlint-netbeans) |
+| **JavaFX Support** | Built-in: FXML editor, SceneBuilder integration via Tools → Options → Java → JavaFX |
+
+> **Note:** All four IDEs (VS Code, IntelliJ, Eclipse, NetBeans) fully support the course toolchain: Java 21, Maven, JUnit, JaCoCo, Git, and SonarLint. Choose the one you are most comfortable with. If unsure, VS Code or IntelliJ IDEA are recommended.
+
 ---
 
 ## Summary by Role
@@ -288,4 +323,4 @@ VS Code is a lightweight, extensible code editor with excellent Java support thr
 | Code Coverage | JaCoCo |
 | UML & Diagrams | PlantUML, diagrams.net, Umlet, Mermaid |
 | Database (optional) | PostgreSQL 16, pgAdmin 4 |
-| IDE | VS Code |
+| IDE | VS Code, IntelliJ IDEA CE, Eclipse, NetBeans |
