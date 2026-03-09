@@ -270,7 +270,7 @@ VS Code is a lightweight, extensible code editor with excellent Java support thr
 | **Version** | Latest |
 | **Download** | https://code.visualstudio.com/ |
 | **Java Extension Pack** | https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-java-pack |
-| **SceneBuilder Integration** | https://marketplace.visualstudio.com/items?itemName=ASharpPen.sbuilder |
+| **SceneBuilder Integration** | https://marketplace.visualstudio.com/items?itemName=bilalekrem.scenebuilderextension |
 
 ---
 

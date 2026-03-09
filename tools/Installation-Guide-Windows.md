@@ -165,7 +165,7 @@ Go to https://gluonhq.com/products/scene-builder/ and download the **Windows Ins
 ### Integration with VS Code
 
 1. Open VS Code
-2. Install the extension **"SceneBuilder extension for Visual Studio Code"** (ASharpPen.sbuilder)
+2. Install the extension **"SceneBuilder extension for Visual Studio Code"** (bilalekrem.scenebuilderextension)
 3. In VS Code settings, set the SceneBuilder executable path:
 
 ```json
