@@ -106,5 +106,5 @@ See [TROUBLESHOOTING.md](TROUBLESHOOTING.md) for common problems and solutions.
 |---|---|
 | **Course** | Praktikum Software Engineering — SS 2026 |
 | **Course Director** | Univ.-Prof. Dr. Manuel Wimmer |
-| **Assistants** | Luca Berardinelli, Abbas Rahimi |
+| **Assistants** | Dr. Luca Berardinelli, Abbas Rahimi |
 | **Institute** | Institut für Wirtschaftsinformatik — Software Engineering, JKU Linz |
