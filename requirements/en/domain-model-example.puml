@@ -1,0 +1,28 @@
+@startuml Domain Model Example
+!theme plain
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+
+package "at.jku.se.model" {
+
+  class Community {
+    -name: String
+    -description: String
+    -acronym: String
+    +Community(name: String, description: String)
+    +getName(): String
+    +setName(name: String): void
+    +getVenueAssignments(): List<VenueAssignment>
+  }
+
+  class VenueAssignment {
+    -communityRating: Rating
+    +VenueAssignment(community: Community, venue: Venue)
+    +getCommunity(): Community
+    +getEffectiveRating(): Rating
+  }
+
+  Community "1" *-- "*" VenueAssignment : contains >
+}
+
+@enduml
