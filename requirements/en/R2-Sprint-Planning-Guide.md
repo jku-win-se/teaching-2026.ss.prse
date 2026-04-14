@@ -10,13 +10,12 @@ R1 was design. R2 is **implementation**: working code, tested, with proper devel
 
 ## 2. Requirement Priorities
 
-| Priority | BRs | What | Target |
-|----------|-----|------|--------|
-| **Must have** | BR-01 to BR-09 | CRUD Community/Conference/Journal, venue assignment, DBLP import, list communities | R2 |
-| **Must have** | BR-10 to BR-13 | Import/export definitions, community overlap, researcher activity, inactive researchers | R3 |
-| **Nice to have** | BR-14 to BR-20 | Filtering, sorting, rankings, rating import (GII-GRIN-SCIE, SJR), graphical reports | R3/Final |
+| Priority | BRs | What |
+|----------|-----|------|
+| **Must have** | BR-01 to BR-13 | CRUD Community/Conference/Journal, venue assignment, DBLP import, list communities, import/export definitions, community overlap, researcher activity, inactive researchers |
+| **Nice to have** | BR-14 to BR-20 | Filtering, sorting, rankings, rating import (GII-GRIN-SCIE, SJR), graphical reports |
 
-For R2: focus on getting CRUD for 2-3 entities fully working with tests. DBLP import can be started but does not need to be complete. Analysis features (BR-10 to BR-13) require working CRUD and imported data -- plan them for R3.
+BR-01 to BR-13 must be completed by the Final Release. How you distribute them across R2, R3, and Final is your team's decision based on your sprint planning. For R2: focus on getting CRUD for 2-3 entities fully working with tests.
 
 ## 3. R2 Deliverables
 
