@@ -1,4 +1,3 @@
 @echo off
-echo Starting SE-Praktikum Workflow Wizard...
-powershell.exe -ExecutionPolicy Bypass -NoProfile -File "%~dp0prse-wizard.ps1"
-pause
+echo Starting SE-Praktikum Git Wizard...
+powershell.exe -ExecutionPolicy Bypass -NoProfile -File "%~dp0GitWizard.ps1" %*
