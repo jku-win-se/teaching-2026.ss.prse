@@ -1,0 +1,31 @@
+@startuml
+title 1. Start a New Feature (Simplified)
+skinparam style strictuml
+skinparam sequenceMessageAlign center
+
+actor Student as S
+participant "GitWizard" as W
+
+S -> W : Option 1
+W -> S : "List issues (L) or enter number (N)?"
+S -> W : L
+
+W -> S : Display open issues\nwith numbers and labels
+
+S -> W : Pick issue #2\n[BR-02] Edit Community
+
+W -> W : Generate branch name:\nfeature/BR-02-edit-existing-community
+
+W -> S : "Branch: feature/BR-02-...\nProceed? (y/n)"
+S -> W : y
+
+W -> W : Switch to main\nPull latest\nCreate branch
+
+W -> S : "Feature branch created!\nGo to your IDE."
+
+note right of S
+  Go to IDE, implement
+  feature, write tests.
+  Come back for option 2.
+end note
+@enduml

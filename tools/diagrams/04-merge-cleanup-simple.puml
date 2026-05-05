@@ -1,0 +1,26 @@
+@startuml
+title 4. Merge & Cleanup (Simplified)
+skinparam style strictuml
+skinparam sequenceMessageAlign center
+
+actor Student as S
+participant "GitWizard" as W
+
+S -> W : Option 4
+W -> S : Show open PRs
+
+S -> W : PR number: 35
+W -> S : "State: OPEN\nReview: APPROVED\nCI: SUCCESS"
+
+W -> S : "Merge PR #35? (y/n)"
+S -> W : y
+W -> W : gh pr merge\nDelete remote branch\nSwitch to main\nDelete local branch
+
+W -> S : "PR #35 merged!\nYour feature is on main."
+
+note right of S
+  Ready for next feature
+  (option 1) or release
+  tag (option 5).
+end note
+@enduml

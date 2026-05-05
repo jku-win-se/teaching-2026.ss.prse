@@ -1,0 +1,53 @@
+@startuml
+title 6. Full Workflow: Feature Lifecycle
+skinparam style strictuml
+skinparam sequenceMessageAlign center
+
+actor Student as S
+participant "GitWizard" as W
+actor Teammate as T
+
+== Option 1: Start Feature ==
+
+S -> W : Option 1
+W -> S : Show open issues
+S -> W : Pick issue #2
+W -> W : Create branch\nfeature/BR-02-edit-existing-community
+W -> S : "Branch created! Go to IDE."
+
+note over S : Implement feature\nand write tests
+
+== Option 2: Save Progress (repeat) ==
+
+S -> W : Option 2
+W -> W : mvn clean verify
+W -> S : "Build successful!"
+S -> W : Message + issue #2
+W -> W : git commit
+W -> S : "Committed!"
+
+note over S : Continue working...\nRepeat option 2
+
+== Option 3: Submit for Review ==
+
+S -> W : Option 3
+W -> W : git push + gh pr create
+W -> S : "PR #35 created!"
+
+S -> T : "Please review"
+T -> T : Review and approve
+
+== Option 4: Merge & Cleanup ==
+
+S -> W : Option 4
+S -> W : Merge PR #35
+W -> W : Merge + delete branch\n+ switch to main
+W -> S : "Merged! Feature is on main."
+
+== Option 5: Tag Release (on deadline) ==
+
+S -> W : Option 5
+S -> W : R2
+W -> W : git tag + push
+W -> S : "Tag R2 created!"
+@enduml

@@ -1,0 +1,35 @@
+@startuml
+title 2. Save Progress (Simplified)
+skinparam style strictuml
+skinparam sequenceMessageAlign center
+
+actor Student as S
+participant "GitWizard" as W
+
+S -> W : Option 2
+W -> S : Show changed files
+
+W -> S : "Run mvn clean verify? (y/n)"
+S -> W : y
+W -> S : "Build successful!"
+
+W -> S : "Stage all (A) or select (S)?"
+S -> W : A
+W -> W : git add .
+
+W -> S : "Issue number?"
+S -> W : 2
+W -> S : "Commit message?"
+S -> W : "Add validation to Community"
+
+W -> S : "Full message:\nAdd validation to Community #2\nProceed?"
+S -> W : y
+W -> W : git commit
+
+W -> S : "Committed!\nNext: option 3 when ready"
+
+note right of S
+  Repeat option 2 as
+  many times as needed.
+end note
+@enduml

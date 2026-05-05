@@ -1,0 +1,26 @@
+@startuml
+title 5. Create Release Tag (Simplified)
+skinparam style strictuml
+skinparam sequenceMessageAlign center
+
+actor Student as S
+participant "GitWizard" as W
+
+S -> W : Option 5
+
+W -> S : "Available tags:\n  R1 - UI Prototype\n  R2 - Implementation + Tests\n  R3 - Documentation"
+
+S -> W : R2
+
+W -> S : "Create tag R2? (y/n)"
+S -> W : y
+W -> W : git tag -a R2\ngit push origin R2
+
+W -> S : "Release tag R2\ncreated and pushed!"
+
+note right of S
+  Tag is visible on GitHub.
+  Instructors evaluate this
+  exact version.
+end note
+@enduml

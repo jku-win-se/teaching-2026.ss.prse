@@ -1,0 +1,28 @@
+@startuml
+title 3. Submit for Review (Simplified)
+skinparam style strictuml
+skinparam sequenceMessageAlign center
+
+actor Student as S
+participant "GitWizard" as W
+actor Teammate as T
+
+S -> W : Option 3
+W -> S : "Push branch? (y/n)"
+S -> W : y
+W -> W : git push
+
+W -> S : "PR title?"
+S -> W : "Implement edit community (BR-02)"
+W -> S : "PR: feature/BR-02-... -> main\nProceed?"
+S -> W : y
+W -> W : gh pr create
+
+W -> S : "PR #35 created!\nAsk a teammate to review."
+
+== After PR creation ==
+
+S -> T : "Please review PR #35"
+T -> T : Review and approve
+W -> S : "Once approved, use option 4"
+@enduml

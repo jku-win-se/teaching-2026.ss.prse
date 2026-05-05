@@ -41,76 +41,91 @@ You will see an interactive menu:
 
 ## Getting Help
 
-From the command line:
+**From the command line:**
 
 ```powershell
-.\tools\GitWizard.ps1 -Help          # Overview with workflow diagram
+.\tools\GitWizard.ps1 -Help          # Overview
 .\tools\GitWizard.ps1 -Help 1        # Detailed help for option 1
 .\tools\GitWizard.ps1 -Help 3        # Detailed help for option 3
 ```
 
-From inside the wizard menu, type `?` for an overview or `1?` through `6?` for details on a specific command.
+**From inside the wizard menu:** type `?` for an overview or `1?` through `6?` for details.
 
-## Typical Workflow
+---
 
-The numbered options follow the natural development cycle. Here is how a typical feature implementation looks:
+## Workflow at a Glance
 
-### Step 1 — Pick an issue and create a branch
+![Full Workflow](diagrams/06-full-workflow-simple.png)
 
-Choose option **1**. The wizard will show you the open issues in your repository. Pick one, and the wizard creates a properly named feature branch:
+> [View detailed version with Git/GitHub internals](diagrams/06-full-workflow.png)
 
+---
+
+## 1. Start a New Feature
+
+Pick an issue from your GitHub board and create a properly named feature branch.
+
+![Start a New Feature](diagrams/01-start-feature-simple.png)
+
+> [View detailed version](diagrams/01-start-feature.png)
+
+Branch naming is automatic based on the issue type:
+- `[BR-02] Edit Community` → `feature/BR-02-edit-existing-community`
+- `[SR-01.1] Parse DBLP` → `feature/SR-01.1-parse-dblp-xml`
+- `[US-005] Create dialog` → `feature/US-005-create-community-dialog`
+
+---
+
+## 2. Save Progress (Commit)
+
+Stage changes, optionally run tests, and commit with a message that references the issue.
+
+![Save Progress](diagrams/02-save-progress-simple.png)
+
+> [View detailed version](diagrams/02-save-progress.png)
+
+Every commit message **must** include `#<issue-number>`:
 ```
-feature/BR-02-edit-existing-community
-feature/US-005-create-community-dialog
-feature/SR-01.1-parse-dblp-xml
+Add validation to Community #2
 ```
 
-The branch name is generated automatically from the issue type (`BR`, `SR`, `US`) and title.
+---
 
-### Step 2 — Implement, test, commit
+## 3. Submit for Review (Push + Create PR)
 
-Go to your IDE. Write code, write tests. When you want to save your progress, come back to the wizard and choose option **2**. It will:
+Push your branch and create a Pull Request. Then ask a teammate to review.
 
-- Show you what changed
-- Optionally run `mvn clean verify` to check your code
-- Ask you to stage files and write a commit message
-- Automatically append the issue number (`#42`) to your message
+![Submit for Review](diagrams/03-submit-for-review-simple.png)
 
-You can repeat this step as many times as needed.
+> [View detailed version](diagrams/03-submit-for-review.png)
 
-### Step 3 — Push and open a Pull Request
+---
 
-When your feature is complete and tested, choose option **3**. The wizard pushes your branch and creates a Pull Request with a checklist. Then ask a teammate to review it.
+## 4. Merge & Cleanup
 
-### Step 4 — Merge after approval
+After your PR is approved and CI passes, merge into `main` and clean up.
 
-Once your PR is approved and CI passes, choose option **4**. The wizard merges the PR, deletes the branch (local and remote), and switches you back to `main`.
+![Merge & Cleanup](diagrams/04-merge-cleanup-simple.png)
 
-### Step 5 — Tag a release
+> [View detailed version](diagrams/04-merge-cleanup.png)
 
-On release day (R1, R2, or R3), choose option **5** to create an annotated tag on `main` and push it to GitHub.
+---
 
-### Step 6 — Check your status
+## 5. Create Release Tag
 
-At any time, choose option **6** to see your current branch, uncommitted changes, open PRs, and release tags. This command is read-only and never modifies anything.
+On release day, tag the current commit on `main`.
 
-## Sequence Diagrams
+![Create Release Tag](diagrams/05-create-release-tag-simple.png)
 
-The `diagrams/` folder contains PlantUML sequence diagrams for each workflow:
+> [View detailed version](diagrams/05-create-release-tag.png)
 
-- `01-start-feature.puml` — Creating a feature branch from an issue
-- `02-save-progress.puml` — Committing with tests and issue references
-- `03-submit-for-review.puml` — Pushing and opening a Pull Request
-- `04-merge-cleanup.puml` — Merging a PR and cleaning up
-- `05-create-release-tag.puml` — Tagging a release on main
-- `06-full-workflow.puml` — End-to-end feature lifecycle
-
-To render them, paste the `.puml` content into [plantuml.com](https://www.plantuml.com/plantuml/uml/) or use the PlantUML plugin in your IDE.
+---
 
 ## Rules to Remember
 
 - **Never commit directly to `main`** — always use a feature branch
 - **Every commit must reference an issue** with `#N` in the message
 - **Every feature needs a Pull Request** with at least one approving review
-- **Commits at least once per week** — regular progress is expected
+- **Commit at least once per week** — regular progress is expected
 - **Tag each release** (R1, R2, R3) on `main` before the deadline
+- **Run `mvn clean verify`** before committing to catch errors early
