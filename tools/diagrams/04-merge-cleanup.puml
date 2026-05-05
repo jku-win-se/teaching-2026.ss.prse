@@ -1,0 +1,64 @@
+@startuml
+title 4. Merge & Cleanup
+skinparam style strictuml
+skinparam sequenceMessageAlign center
+skinparam noteFontSize 11
+
+actor Student as S
+participant "GitWizard" as W
+participant "GitHub CLI" as GH
+participant "Git" as G
+participant "GitHub" as R
+
+S -> W : Select option 4
+
+== Step 1: List open PRs ==
+
+W -> GH : gh pr list
+GH -> R : GET /repos/{owner}/{repo}/pulls
+R --> GH : Open PRs
+GH --> W : "#35 Implement edit community... feature/BR-02-..."
+W -> S : Display PR list
+S -> W : PR number: 35
+
+== Step 2: Check PR status ==
+
+W -> GH : gh pr view 35 --json\nstate,reviewDecision,statusCheckRollup
+GH -> R : GET /repos/{owner}/{repo}/pulls/35
+R --> GH : PR details
+GH --> W : State: OPEN | Review: APPROVED | CI: SUCCESS
+W -> S : "State: OPEN | Review: APPROVED | CI: SUCCESS"
+
+== Step 3: Merge ==
+
+W -> S : "Merge PR #35? (y/n)"
+S -> W : y
+W -> GH : gh pr merge 35\n--merge --delete-branch
+GH -> R : PUT /repos/{owner}/{repo}/pulls/35/merge
+R -> R : Merge commit created
+R -> R : Delete remote branch
+R --> GH : Merged successfully
+GH --> W : Merged + branch deleted
+
+== Step 4: Local cleanup ==
+
+W -> G : git checkout main
+G --> W : Switched to main
+W -> G : git pull origin main
+G -> R : Fetch merge commit
+R --> G : Fast-forward
+G --> W : Updated to latest
+W -> G : git branch -d\nfeature/BR-02-edit-existing-community
+G --> W : Local branch deleted
+
+W -> S : "PR #35 merged!\nYour feature is on main."
+
+note right of S
+  The feature branch is gone
+  (both remote and local).
+  main now contains the work.
+  Ready for the next feature
+  (option 1) or release tag
+  (option 5).
+end note
+@enduml

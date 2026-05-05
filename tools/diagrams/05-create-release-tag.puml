@@ -1,0 +1,60 @@
+@startuml
+title 5. Create Release Tag
+skinparam style strictuml
+skinparam sequenceMessageAlign center
+skinparam noteFontSize 11
+
+actor Student as S
+participant "GitWizard" as W
+participant "Git" as G
+participant "GitHub" as R
+
+S -> W : Select option 5
+
+W -> G : git branch --show-current
+G --> W : main
+
+alt Not on main
+    W -> S : "You are on a feature branch.\nSwitch to main? (y/n)"
+    S -> W : y
+    W -> G : git checkout main
+    W -> G : git pull origin main
+else Already on main
+    note right of W : Ready to tag
+end
+
+W -> S : "Available tags:\n  R1 - UI Prototype\n  R2 - Implementation + Tests\n  R3 - Documentation"
+S -> W : R2
+
+W -> G : git tag -l R2
+G --> W : (empty = tag does not exist)
+
+alt Tag already exists
+    W -> S : "Tag R2 already exists!\nDelete and re-create? (y/n)"
+    S -> W : y
+    W -> G : git tag -d R2
+    W -> G : git push origin :refs/tags/R2
+    G -> R : Delete remote tag
+end
+
+W -> S : "Create tag R2? (y/n)"
+S -> W : y
+
+W -> G : git tag -a R2\n-m "Release R2 - SE-Praktikum SS 2026"
+G --> W : Tag created locally
+
+W -> G : git push origin R2
+G -> R : Upload tag
+R --> G : Tag published
+G --> W : Push successful
+
+W -> S : "Release tag R2 created and pushed!"
+
+note right of R
+  Tag is now visible on GitHub
+  under Releases / Tags.
+  Instructors can check out
+  this exact version with:
+    git checkout R2
+end note
+@enduml

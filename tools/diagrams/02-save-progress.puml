@@ -1,0 +1,77 @@
+@startuml
+title 2. Save Progress (Commit)
+skinparam style strictuml
+skinparam sequenceMessageAlign center
+skinparam noteFontSize 11
+
+actor Student as S
+participant "GitWizard" as W
+participant "Git" as G
+participant "Maven" as M
+
+S -> W : Select option 2
+
+W -> G : git branch --show-current
+G --> W : feature/BR-02-edit-existing-community
+
+alt On main branch
+    W -> S : "Error: You are on main.\nSwitch to your feature branch first."
+    note right of S : Use option 1 to\ncreate a branch
+else On feature branch
+    W -> S : "Current branch: feature/BR-02-..."
+end
+
+== Step 1: Check changes ==
+
+W -> G : git status --short
+G --> W : " M src/main/java/.../Community.java\n M src/test/.../CommunityTest.java"
+W -> S : Display changed files
+
+== Step 2: Run tests (optional) ==
+
+W -> S : "Run mvn clean verify? (y/n)"
+
+alt Student runs tests
+    S -> W : y
+    W -> M : mvn clean verify
+    M -> M : Compile, run tests,\ncheck coverage
+    alt Build succeeds
+        M --> W : BUILD SUCCESS
+        W -> S : "Build successful! Tests passed."
+    else Build fails
+        M --> W : BUILD FAILURE
+        W -> S : "Maven build FAILED.\nCommit anyway? (not recommended)"
+        S -> W : n
+        note right of S : Fix errors first,\nthen try again
+    end
+else Student skips
+    S -> W : n
+end
+
+== Step 3: Stage files ==
+
+W -> S : "Add all (A) or select (S)?"
+S -> W : A
+W -> G : git add .
+G --> W : Files staged
+
+== Step 4: Commit ==
+
+W -> S : "Issue number?"
+S -> W : 2
+W -> S : "Commit message?"
+S -> W : "Add validation to Community"
+W -> W : Build full message:\n"Add validation to Community #2"
+W -> S : "Full message: Add validation to Community #2\nProceed?"
+S -> W : y
+W -> G : git commit -m\n"Add validation to Community #2"
+G --> W : [feature/BR-02-...] a1b2c3d
+
+W -> S : "Committed! Progress saved locally.\nNext: option 3 when ready"
+
+note right of S
+  Student can repeat option 2
+  multiple times before
+  submitting for review.
+end note
+@enduml

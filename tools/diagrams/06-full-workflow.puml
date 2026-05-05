@@ -1,0 +1,91 @@
+@startuml
+title Full Workflow: Feature Lifecycle (End-to-End)
+skinparam style strictuml
+skinparam sequenceMessageAlign center
+skinparam noteFontSize 11
+
+actor Student as S
+participant "GitWizard" as W
+participant "Git" as G
+participant "GitHub" as R
+actor Teammate as T
+
+== Option 1: Start Feature ==
+
+S -> W : Option 1
+W -> R : Fetch open issues
+R --> W : Issue #2: [BR-02] Edit Community
+S -> W : Pick issue #2
+W -> G : checkout main, pull,\ncheckout -b feature/BR-02-edit-existing-community
+G --> W : Branch created
+W -> S : "Go to your IDE"
+
+note over S : Student implements\nfeature + tests\nin IDE
+
+== Option 2: Save Progress (repeat as needed) ==
+
+S -> W : Option 2
+W -> S : "Run mvn clean verify?"
+S -> W : y
+W -> G : mvn clean verify
+G --> W : BUILD SUCCESS
+W -> S : "Stage all? (A/S)"
+S -> W : A
+W -> G : git add .
+W -> S : "Issue number?"
+S -> W : 2
+W -> S : "Commit message?"
+S -> W : "Add validation to Community"
+W -> G : git commit -m\n"Add validation to Community #2"
+G --> W : Committed
+
+note over S : Student continues\nworking, repeats\noption 2 as needed
+
+S -> W : Option 2 (again)
+W -> G : git add . && commit\n"Add unit tests for validation #2"
+G --> W : Committed
+
+== Option 3: Submit for Review ==
+
+S -> W : Option 3
+W -> G : git push -u origin\nfeature/BR-02-edit-existing-community
+G -> R : Push branch
+R --> G : Branch uploaded
+W -> R : gh pr create\n"Implement edit community (BR-02)"
+R --> W : PR #35 created
+W -> S : "PR created! Ask for review."
+
+== Team Review ==
+
+S -> T : "Please review PR #35"
+T -> R : Read diff, leave comments
+T -> R : Approve PR
+R -> R : GitHub Actions CI passes
+
+== Option 4: Merge & Cleanup ==
+
+S -> W : Option 4
+W -> R : gh pr view #35
+R --> W : APPROVED, CI: SUCCESS
+S -> W : Merge PR #35
+W -> R : gh pr merge 35\n--merge --delete-branch
+R --> W : Merged
+W -> G : checkout main, pull,\ndelete local branch
+G --> W : Clean state on main
+
+== Option 5: Create Release Tag (on release day) ==
+
+note over S : After all features\nfor R2 are merged
+
+S -> W : Option 5
+W -> G : git tag -a R2\n-m "Release R2"
+W -> G : git push origin R2
+G -> R : Tag published
+W -> S : "Release tag R2 created!"
+
+note over R
+  Instructors evaluate
+  the tagged version:
+    git checkout R2
+end note
+@enduml

@@ -1,0 +1,61 @@
+@startuml
+title 3. Submit for Review (Push + Create PR)
+skinparam style strictuml
+skinparam sequenceMessageAlign center
+skinparam noteFontSize 11
+
+actor Student as S
+participant "GitWizard" as W
+participant "Git" as G
+participant "GitHub CLI" as GH
+participant "GitHub" as R
+actor Teammate as T
+
+S -> W : Select option 3
+W -> G : git branch --show-current
+G --> W : feature/BR-02-edit-existing-community
+
+W -> G : git status --porcelain
+G --> W : (clean)
+
+== Step 1: Push branch ==
+
+W -> S : "Push branch to GitHub?\nProceed? (y/n)"
+S -> W : y
+W -> G : git push -u origin\nfeature/BR-02-edit-existing-community
+G -> R : Upload commits
+R --> G : Branch created on remote
+G --> W : Push successful
+W -> S : "Branch pushed."
+
+== Step 2: Create Pull Request ==
+
+W -> S : "PR title?"
+S -> W : "Implement edit community (BR-02)"
+W -> S : "PR: feature/BR-02-... -> main\nProceed?"
+S -> W : y
+
+W -> GH : gh pr create\n--base main\n--title "Implement edit community (BR-02)"\n--body "## Changes\n- ...\n## Checklist\n- [ ] Code compiles\n- [ ] Tests pass\n\nRelates to #2"
+GH -> R : POST /repos/{owner}/{repo}/pulls
+R --> GH : PR #35 created
+GH --> W : https://github.com/.../pull/35
+
+W -> S : "Pull Request created!"
+
+== After PR creation ==
+
+note over S, T
+  The wizard is done.
+  Now the team collaboration begins.
+end note
+
+S -> T : "Please review PR #35"
+T -> R : Review code changes
+T -> R : Approve PR
+R -> R : CI (GitHub Actions)\nruns and passes
+
+note right of S
+  Once approved and CI green,
+  use option 4 to merge.
+end note
+@enduml

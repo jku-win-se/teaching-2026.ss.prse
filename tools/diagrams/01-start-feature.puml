@@ -1,0 +1,54 @@
+@startuml
+title 1. Start a New Feature
+skinparam style strictuml
+skinparam sequenceMessageAlign center
+skinparam noteFontSize 11
+
+actor Student as S
+participant "GitWizard" as W
+participant "GitHub CLI" as GH
+participant "Git" as G
+participant "GitHub" as R
+
+S -> W : Select option 1
+W -> S : "List issues or enter number? (L/N)"
+
+alt List issues
+    S -> W : L
+    W -> GH : gh issue list --state open
+    GH -> R : GET /repos/{owner}/{repo}/issues
+    R --> GH : Open issues list
+    GH --> W : Issues JSON
+    W -> S : Display issues with labels
+    S -> W : Pick issue number (e.g. 2)
+else Enter number
+    S -> W : N
+    S -> W : Issue number (e.g. 2)
+    W -> GH : gh issue view 2 --json title
+    GH -> R : GET /repos/{owner}/{repo}/issues/2
+    R --> GH : Issue details
+    GH --> W : Issue title
+end
+
+W -> W : Detect type from title\n[BR-02] -> prefix = BR-02
+W -> W : Generate slug from title\n"edit-existing-community"
+W -> S : "Branch: feature/BR-02-edit-existing-community\nProceed? (y/n)"
+S -> W : y
+
+W -> G : git checkout main
+G --> W : Switched to main
+W -> G : git pull origin main
+G -> R : Fetch latest commits
+R --> G : Up to date
+G --> W : Already up to date
+W -> G : git checkout -b\nfeature/BR-02-edit-existing-community
+G --> W : Branch created
+
+W -> S : "Feature branch created!\nGo to your IDE and implement."
+
+note right of S
+  Student now works in IDE:
+  writes code, writes tests.
+  Comes back for option 2.
+end note
+@enduml
